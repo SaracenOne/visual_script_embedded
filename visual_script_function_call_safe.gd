@@ -1,0 +1,4 @@
+extends VisualScriptFunctionCall
+tool
+
+pass

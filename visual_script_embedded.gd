@@ -1,23 +1,35 @@
 extends VisualScript
 tool
 
-func is_node_valid(p_node):
+const visual_script_function_call_safe_const = preload("visual_script_function_call_safe.gd")
+
+func _init():
+	pass
+
+func get_node_valid(p_node):
 	if p_node is VisualScriptComment:
-		return true
+		return p_node
+	elif p_node is VisualScriptFunction:
+		return p_node
+	elif p_node is VisualScriptFunctionCall:
+		if p_node is visual_script_function_call_safe_const:
+			return p_node
+		else:
+			return visual_script_function_call_safe_const.new()
 	elif p_node is VisualScriptCondition:
-		return true
+		return p_node
 	elif p_node is VisualScriptMathConstant:
-		return true
+		return p_node
 	elif p_node is VisualScriptOperator:
-		return true
+		return p_node
 	elif p_node is VisualScriptSwitch:
-		return true
+		return p_node
 	elif p_node is VisualScriptSubCall:
-		return true
+		return p_node
 	elif p_node is VisualScriptWhile:
-		return true
+		return p_node
 	
-	return false
+	return null
 
 func add_function(p_name):
 	var object_method_list = ClassDB.class_get_method_list("Object", true)
@@ -29,8 +41,9 @@ func add_function(p_name):
 	.add_function(p_name)
 	
 func add_node(p_func, p_id, p_node, p_position=Vector2(0, 0)):
-	if is_node_valid(p_node):
-		.add_node(p_func, p_id, p_node, p_position)
+	var node = get_node_valid(p_node)
+	if node:
+		.add_node(p_func, p_id, node, p_position)
 
 func set_instance_base_type(p_type):
 	.set_instance_base_type("Object")
