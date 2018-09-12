@@ -1,4 +1,2 @@
 extends VisualScriptFunctionCall
 tool
-
-pass
